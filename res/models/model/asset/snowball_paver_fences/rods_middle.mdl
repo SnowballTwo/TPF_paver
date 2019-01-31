@@ -1,0 +1,49 @@
+function data()
+return {
+	boundingInfo = {
+		
+	},
+	collider = {
+		params = {
+			
+		},
+		type = "MESH",
+		
+	},
+	lods = {
+		{
+			animations = {
+				
+			},
+			children = {
+				{
+					id = "station/airport/asset/lod_0_wooden_fence_start.msh",
+					transf = {
+						1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1.25, 0, -0.1, 1, 
+					},
+					type = "MESH",
+					
+				}, 
+				
+				
+			},
+			events = {
+				
+			},
+			matConfigs = {
+				{
+					0, 0, 0, 0, 
+				}, 
+			},
+			static = false,
+			visibleFrom = 0,
+			visibleTo = 750,
+			
+		}, 
+	},
+	metadata = {
+		
+	},
+	
+}
+end

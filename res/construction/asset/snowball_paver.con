@@ -1,0 +1,110 @@
+local paver = require "snowball_paver"
+
+local modes = {"plan", "pave", "reset"}
+
+
+
+function data()
+	return {
+		type = "ASSET_DEFAULT",
+		buildMode = "MULTI",
+		categories = {"tree"},
+		availability = {
+			yearFrom = 0,
+			yearTo = 0
+		},
+		description = {
+			name = _("snowball_paver_title"),
+			description = _("snowball_paver_description")
+		},
+		order = 197721101,
+		skipCollision = true,
+		autoRemovable = false,
+		params = {
+			{
+				key = "snowball_paver_mode",
+				name = _("snowball_paver_mode"),
+				values = {_("snowball_paver_plan"), _("snowball_paver_pave"), _("snowball_paver_reset")},
+				defaultIndex = 0
+			},
+			{
+				key = "snowball_paver_ground",
+				name = _("snowball_paver_ground"),
+				values = paver.getGroundNames(),
+				defaultIndex = 0
+			},
+			{
+				key = "snowball_paver_border",
+				name = _("snowball_paver_border"),
+				values = {
+					_("snowball_paver_border_no"),
+					_("snowball_paver_border_yes")
+				},
+				defaultIndex = 1
+			},			
+			{
+				key = "snowball_paver_fence",
+				name = _("snowball_paver_fence"),
+				values = {
+					_("snowball_paver_fence_none"),
+					_("snowball_paver_fence_stockade"),
+					_("snowball_paver_fence_rods"),
+					_("snowball_paver_fence_mesh")
+				},
+				defaultIndex = 0
+			},
+			{
+				key = "snowball_paver_lock",
+				name = _("snowball_paver_lock"),
+				values = {
+					_("snowball_paver_lock_unlock"),
+					_("snowball_paver_lock_lock")
+				},
+				defaultIndex = 0
+			}
+		},
+		updateFn = function(params)
+			local result = {
+				models = {},
+				cost = 10,
+				bulldozeCost = 10,
+				maintenanceCost = 0
+			}
+			local mode = modes[params.snowball_paver_mode + 1]
+			local ground = paver.grounds[params.snowball_paver_ground + 1]			
+			local interactive = params.snowball_paver_lock == 0
+			local stroke = params.snowball_paver_border == 1
+			local fence = nil
+
+			if params.snowball_paver_fence > 0 then
+				fence = paver.fences[params.snowball_paver_fence]
+			end
+
+			result.models = {}
+
+			result.terrainAlignmentLists = {
+				{
+					type = "EQUAL",
+					faces = {}
+				}
+			}
+			local built = paver.updateMarkers()
+
+			if not built then
+				paver.lock(interactive)
+			end
+			
+			if mode == "plan" then
+				paver.plan(result, ground)
+			elseif mode == "reset" then
+				paver.reset(result)
+			elseif mode == "pave" then
+				paver.pave(result, ground, stroke, fence, interactive)
+			else
+				error("paver: invalid operation ", mode)
+			end
+
+			return result
+		end
+	}
+end

@@ -1,0 +1,79 @@
+function data()
+return {
+	boundingInfo = {
+		bbMax = {
+			3.3734139204025, 0.046486001461744, 0.94239902496338, 
+		},
+		bbMin = {
+			0, -0.037716999650002, -0.093613997101784, 
+		},
+		
+	},
+	collider = {
+		params = {
+			
+		},
+		type = "MESH",
+		
+	},
+	lods = {
+		{
+			animations = {
+				
+			},
+			children = {
+				{
+					id = "asset/fence_wood_lod1_lod_1.msh",
+					transf = {
+						1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1.6914789676666, 0, -0.1, 1, 
+					},
+					type = "MESH",
+					
+				}, 
+			},
+			events = {
+				
+			},
+			matConfigs = {
+				{
+					0, 
+				}, 
+			},
+			static = true,
+			visibleFrom = 150,
+			visibleTo = 750,
+			
+		}, {
+			animations = {
+				
+			},
+			children = {
+				{
+					id = "asset/fence_wood_lod0_lod_0.msh",
+					transf = {
+						1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1.6914789676666, 0, -0.1, 1, 
+					},
+					type = "MESH",
+					
+				}, 
+			},
+			events = {
+				
+			},
+			matConfigs = {
+				{
+					0, 
+				}, 
+			},
+			static = false,
+			visibleFrom = 0,
+			visibleTo = 150,
+			
+		}, 
+	},
+	metadata = {
+		
+	},
+	
+}
+end

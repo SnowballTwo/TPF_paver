@@ -1,0 +1,76 @@
+local paver = require "snowball_paver"
+
+function data() return { 
+	type = "ASSET_DEFAULT",
+	buildMode = "MULTI",
+	categories = { 
+		"misc" 
+	},
+	availability = {
+		yearFrom = 244,
+		yearTo = 245
+	},
+	description = {
+		name = _("patch_title"),
+		description =  _("patch_description"),
+	},		
+	order = 197720202,
+	skipCollision = true,
+	autoRemovable = false,	
+	updateFn = function(params)	
+		
+		local result = { 
+			models = {},
+			cost = 10,
+			bulldozeCost = 10,
+			maintenanceCost = 0 
+		}
+		local outline = params.outline
+		local ground = params.ground	
+		local center = params.center
+		local stroke = params.stroke	
+
+		if not outline or not ground or not center then
+			result.models[#result.models+1] =
+			{					
+				id = "asset/snowball_paver_suspensor.mdl",
+				transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 }
+			}
+			return result
+		end
+		
+		--we need this to prevent the game engine from cutting out ground face
+		for i = 1, #outline do
+			result.models[#result.models+1] =
+			{					
+				id = "asset/snowball_paver_suspensor.mdl",
+				transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, outline[i][1], outline[i][2], outline[i][3] - 0.5, 1 }
+			}
+		end
+		
+		local modes = {}
+		if ground.fill then
+			modes[#modes + 1] = {type="FILL", key=ground.fill}
+		end
+
+		if ground.stroke and stroke then
+			modes[#modes + 1] = {type="STROKE", key=ground.stroke}
+		end
+
+		if ground.stroke_outer and stroke then
+			modes[#modes + 1] = {type="STROKE_OUTER", key=ground.stroke_outer}
+		end
+
+		if ground.stroke_inner and stroke then
+			modes[#modes + 1] = {type="STROKE_INNER", key=ground.stroke_inner}
+		end
+
+		result.groundFaces = { {  
+			face = outline,
+			modes = modes
+		  } }
+
+		return result
+
+	end,
+} end
